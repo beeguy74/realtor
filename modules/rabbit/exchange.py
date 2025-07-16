@@ -12,7 +12,7 @@ ROUTING_KEY = getenv("RABBIT_MAIN_EXCHANGE_KEY")
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(
     host="localhost",
-    credentials=pika.PlainCredentials(username=getenv("RABBIT_USERNAME", ""), password=getenv("RABBIT_PASSWORD", ""))
+    credentials=pika.PlainCredentials(username=getenv("RABBITMQ_DEFAULT_USER", ""), password=getenv("RABBITMQ_DEFAULT_PASS", ""))
 ))
 
 channel = connection.channel()

@@ -3,9 +3,6 @@ FROM rabbitmq:management
 # Expose the default RabbitMQ ports for documentational purposes only
 EXPOSE 5672 15672 
 
-# Optional: Set environment variables
-ENV RABBITMQ_DEFAULT_USER=admin
-ENV RABBITMQ_DEFAULT_PASS=password
 
 # Optional: Enable management plugin (already enabled in rabbitmq:management)
 # RUN rabbitmq-plugins enable rabbitmq_management
