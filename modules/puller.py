@@ -1,5 +1,14 @@
 from typing import Optional
-import requests
+
+import aiohttp.typedefs
+from modules.models import Ad, AdImage, AdParameter
+import json
+import aiohttp
+import asyncio
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 class Puller:
@@ -48,13 +57,18 @@ class Puller:
     def __str__(self):
         return f"Puller class\nurl: {self.url}\nparams: {self.params}\n headers: {self.headers}"
         
-    def make_request(self, output_file: Optional[str]):
-        response = requests.get(self.url, headers=self.headers, params=self.params)
-        if output_file:
+    async def response_to_file(self, output_file: Optional[str]):
+        response = await self.get_response()
+        if response and output_file:
             with open(output_file, "w", encoding="utf-8") as f:
-                f.write(response.text)
+                f.write(response)
+                
+    async def get_response(self) -> Optional[str]:
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(self.url, headers=self.headers, params=self.params) as response:
+                    return await response.text()
+        except Exception as e:
+            logger.error(f"puller error: {e}")
+        return None
 
-
-if __name__ == "__main__":
-    puller = Puller()
-    print(puller)
