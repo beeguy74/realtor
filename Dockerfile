@@ -1,7 +1,7 @@
 FROM rabbitmq:management
 
-# Expose the default RabbitMQ ports
-EXPOSE 5672 15672
+# Expose the default RabbitMQ ports for documentational purposes only
+EXPOSE 5672 15672 
 
 # Optional: Set environment variables
 ENV RABBITMQ_DEFAULT_USER=admin
