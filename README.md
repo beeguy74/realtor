@@ -160,3 +160,40 @@ docker-compose down -v
 - `black` - Code formatter
 - `flake8` - Code linter
 - `pytest` - Testing framework
+
+The application will be available at `http://127.0.0.1:8000`.
+
+## Database Migrations
+
+This project uses Alembic to manage database migrations.
+
+### Creating a new migration
+
+To create a new migration script after changing your models, use the following command:
+
+```bash
+poetry run alembic revision --autogenerate -m "description of changes"
+```
+
+This will generate a new revision file in `alembic/versions/`.
+
+### Applying migrations
+
+To apply all pending migrations to the database, run:
+
+```bash
+poetry run alembic upgrade head
+```
+
+### Downgrading migrations
+
+To downgrade by one revision:
+
+```bash
+poetry run alembic downgrade -1
+```
+
+To downgrade to a specific revision, use the revision hash:
+
+```bash
+poetry run alembic downgrade <revision>
