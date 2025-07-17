@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, TypedDict
 
 import aiohttp.typedefs
 from modules.models import Ad, AdImage, AdParameter
@@ -9,6 +9,10 @@ import logging
 
 
 logger = logging.getLogger(__name__)
+
+class ResponseDict(TypedDict):
+    total: int
+    ads: list
 
 
 class Puller:
@@ -63,11 +67,11 @@ class Puller:
             with open(output_file, "w", encoding="utf-8") as f:
                 f.write(response)
                 
-    async def get_response(self) -> Optional[str]:
+    async def get_response(self) -> Optional[ResponseDict]:
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.get(self.url, headers=self.headers, params=self.params) as response:
-                    return await response.text()
+                    return await response.json()
         except Exception as e:
             logger.error(f"puller error: {e}")
         return None
