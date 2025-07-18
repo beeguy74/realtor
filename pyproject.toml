@@ -9,6 +9,7 @@ dependencies = [
     "alembic>=1.16.4",
     "pika>=1.3.2",
     "psycopg2-binary>=2.9.10",
+    "pytelegrambotapi>=4.27.0",
     "python-dotenv>=1.1.1",
     "sqlalchemy[asyncio]>=2.0.41",
 ]
