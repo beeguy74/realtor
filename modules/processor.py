@@ -1,5 +1,5 @@
 from typing import Optional, Dict, Any, List
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.exc import IntegrityError
 from modules.models import Account, Ad, AdImage, AdParameter
 from modules.DatabaseManager import DatabaseManager
@@ -323,7 +323,7 @@ class DataProcessor:
         """
         session = self.db_manager.get_session()
         try:
-            ads = session.query(Ad).order_by(Ad.created_at.desc()).limit(limit).all()
+            ads = session.query(Ad).options(joinedload(Ad.images)).order_by(Ad.created_at.desc()).limit(limit).all()
             return ads
         except Exception as e:
             logger.error(f"Error getting recent ads: {e}")
