@@ -14,9 +14,13 @@ TELEGRAM_GROUP_LINK=getenv("TELEGRAM_GROUP_LINK", "")
 
 
 def formatted_message(ad: Ad) -> str:
-    return f"""
+    max_length = 950
+    message = f"""
 {ad.subject}\n{ad.body}\n
 """
+    if len(message) > max_length:
+        message = message[:max_length-3] + "..."
+    return message
 
 
 async def main():
@@ -29,6 +33,7 @@ async def main():
     bot = async_telebot.AsyncTeleBot(TELEGRAM_BOT_TOKEN)
     try:
         for i, ad in enumerate(ads):
+            print(f"ad {ad.id}")
             media_group = [types.InputMediaPhoto(image.image_url) for image in ad.images[:7]]
             media_group[0].caption = f"#{i + 1} of Top 5 annonces of this week!\n\n"
             media_group[0].caption += formatted_message(ad)

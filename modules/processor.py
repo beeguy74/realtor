@@ -193,20 +193,31 @@ class DataProcessor:
     
     def _update_ad_fields(self, ad: Ad, ad_data: Dict[str, Any], account: Account) -> None:
         """Update existing ad with new data."""
-        # Update fields that might change
-        ad.list_time = ad_data.get('list_time', ad.list_time)
-        ad.state = ad_data.get('state', ad.state)
-        ad.status = ad_data.get('status', ad.status)
-        ad.subject = ad_data.get('subject', ad.subject)
-        ad.body = ad_data.get('body', ad.body)
-        ad.image = ad_data.get('image', ad.image)
-        ad.webp_image = ad_data.get('webp_image', ad.webp_image)
-        ad.thumbnail_image = ad_data.get('thumbnail_image', ad.thumbnail_image)
-        ad.number_of_images = ad_data.get('number_of_images', ad.number_of_images)
-        ad.contain_videos = ad_data.get('contain_videos', ad.contain_videos)
-        ad.price_string = ad_data.get('price_string', ad.price_string)
-        if account:
-            ad.account_id_fk = account.id
+        session = self.db_manager.get_session()
+        try:
+            # Update fields that might change
+            ad.list_time = ad_data.get('list_time', ad.list_time)
+            ad.state = ad_data.get('state', ad.state)
+            ad.status = ad_data.get('status', ad.status)
+            ad.subject = ad_data.get('subject', ad.subject)
+            ad.body = ad_data.get('body', ad.body)
+            ad.translated = ad_data.get("translated", ad.translated)
+            ad.image = ad_data.get('image', ad.image)
+            ad.webp_image = ad_data.get('webp_image', ad.webp_image)
+            ad.thumbnail_image = ad_data.get('thumbnail_image', ad.thumbnail_image)
+            ad.number_of_images = ad_data.get('number_of_images', ad.number_of_images)
+            ad.contain_videos = ad_data.get('contain_videos', ad.contain_videos)
+            ad.price_string = ad_data.get('price_string', ad.price_string)
+            if account:
+                ad.account_id_fk = account.id
+            session.merge(ad)
+            session.commit()
+        except Exception as e:
+            logger.error(f"Error updating ad {ad.ad_id}: {e}")
+            session.rollback()
+        finally:
+            session.close()
+            
     
     def _process_ad_images(self, session: Session, ad_data: Dict[str, Any], ad: Ad) -> int:
         """Process and save ad images."""
