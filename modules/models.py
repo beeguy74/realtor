@@ -77,6 +77,10 @@ class Ad(Base):
     # Timestamps
     created_at: Mapped[datetime] = Column(DateTime, default=datetime.utcnow)
     updated_at: Mapped[datetime] = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    # Statuses:
+    posted: Mapped[datetime] = Column(DateTime, default=None, nullable=True)
+    translated: Mapped[bool] = Column((Boolean), default=False)
 
 class AdImage(Base):
     __tablename__ = 'ad_image'

@@ -24,7 +24,7 @@ class Puller:
         "st": "u,h",
         "limit": "20",
         "fingerprint": "e4be10a5-efd6-4593-937c-7c82ff5f2d27",
-        "include_expired_ads": "true",
+        "include_expired_ads": "false",
         "key_param_included": "true"
     }
     headers = {
