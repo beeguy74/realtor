@@ -97,7 +97,7 @@ class DataProcessor:
                 if seller_info.get('live_ads') is not None:
                     existing_account.live_ads = seller_info.get('live_ads')
                 
-                return existing_account
+                return None
             
             # Create new account
             account = Account(
@@ -133,7 +133,7 @@ class DataProcessor:
             if existing_ad:
                 # Update existing ad with new data
                 self._update_ad_fields(existing_ad, ad_data, account)
-                return existing_ad
+                return None
             
             # Create new ad
             ad = Ad(
