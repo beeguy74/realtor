@@ -1,6 +1,6 @@
 # Reeltor
 
-A Python application that includes RabbitMQ messaging and PostgreSQL database integration.
+A Python application that includes RabbitMQ messaging and PostgreSQL database integration. Now wirh github actions
 
 ## Prerequisites
 
